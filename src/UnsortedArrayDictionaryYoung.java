@@ -20,9 +20,9 @@ public class UnsortedArrayDictionaryYoung<K, V> implements DictionaryInterface<K
     // Holds the current size of the table
     private int size;
     // Holds the starting size of the table
-    private final int START_SIZE = 10;
+    private final int START_SIZE = 3;
     // Holds the value of the current maximum size. Should be START_SIZE unless table is resized
-    private int maxSize = 10;
+    private int maxSize = 3;
 
 
 
@@ -77,7 +77,11 @@ public class UnsortedArrayDictionaryYoung<K, V> implements DictionaryInterface<K
         V result = null;
         int index;
         // If the key is already in the table
-        if (contains(key)) {
+        // resize the table if it is at max capacity
+        if (size - 1 == maxSize) {
+            resize();
+        } // end if
+        if ( contains(key)) {
             // get keys index
             index = getIndex(key);
             // if the key is in table get current value before changing
@@ -85,14 +89,10 @@ public class UnsortedArrayDictionaryYoung<K, V> implements DictionaryInterface<K
             // update the current value
             table[index].setValue(value);
         } else { // If the key is not in the table
-            // resize the table if it is at max capacity
-            if (size == maxSize) {
-                resize();
-            } // end if
-            // Add new keyValue to table and increase current size
+            // Add new keyValue to table
             table[size] = new KeyValue(key, value);
-            size++;
-        } // end if
+        } // end if else
+        size++;
         return result;
     } // end add
 
@@ -193,7 +193,7 @@ public class UnsortedArrayDictionaryYoung<K, V> implements DictionaryInterface<K
             public void forEachRemaining(Consumer<? super V> action) {
                 // default implementation of forEachRemaining
                 while(hasNext()) {
-                    action.accept(next());
+                    action.accept( next() );
                 } // end while
             } // end forEachRemaining
         };
@@ -229,12 +229,12 @@ public class UnsortedArrayDictionaryYoung<K, V> implements DictionaryInterface<K
          * The keyValue method is the default constructor and creates a new keyValue pair
          * Precondition: None
          * Post Condition: creates a new field with a search-key and value
-         * @param searchKey S: The search-key of the new field
-         * @param theValue T: The value of the new field
+         * @param key S: The search-key of the new field
+         * @param value T: The value of the new field
          */
-        private KeyValue (S searchKey, T theValue) {
-            key = searchKey;
-            value = theValue;
+        private KeyValue (S key, T value) {
+            this.key = key;
+            this.value = value;
         } // end default constructor
 
         /**
@@ -267,6 +267,6 @@ public class UnsortedArrayDictionaryYoung<K, V> implements DictionaryInterface<K
             value = newValue;
         } // end setValue
 
-    } // end Node
+    } // end KeyValue
 
 } // end UnsortedArrayDictionaryYoung.java

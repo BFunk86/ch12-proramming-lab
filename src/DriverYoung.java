@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * CSC 1600
  * Data Structures
@@ -13,9 +15,34 @@
 public class DriverYoung {
     public static void main(String[] args) {
 
-        UnsortedArrayDictionaryYoung<> table = new UnsortedArrayDictionaryYoung();
+        // The Dictionary (table)
+        UnsortedArrayDictionaryYoung<City, String> table = new UnsortedArrayDictionaryYoung<>();
+
+        // Holds the City Objects to add to the Table
+        City c;
+
+        // Adds 4 Citys to the table and their description
+        c = new City("Jamestown");
+        table.add(c, "A great place to visit");
+        c = new City("Gloversville");
+        table.add(c, "My hometown");
+        c = new City("Johnstown");
+        table.add(c, "The city I work in");
+        c = new City("Saratoga");
+        table.add(c, "A fun place to go");
+
+        // Creates an iterator for iterating over the search-keys
+        Iterator<City> keyIter = table.getKeyIterator();
+        // Loops over the table search-keys
+        while (keyIter.hasNext()) {
+            displayCity(keyIter.next());
+        } // end while loop
 
 
 
     } // end main
+
+    public static void displayCity(City c) {
+        System.out.println( c.getCity() );
+    }
 } // end Driver Young
